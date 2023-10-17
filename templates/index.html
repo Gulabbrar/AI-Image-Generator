@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenAI Image Generator</title>
+    <style>
+      body {
+        background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20210701/pngtree-abstract-low-poly-style-dark-green-background-cyan-background-image_736231.jpg'); /* Set the background image URL */
+        background-size: cover; /* Scale the background image to cover the entire viewport */
+        background-repeat: no-repeat; /* Prevent the background image from repeating */
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .image-gallery img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      title, h1, label, .form-text, .btn {
+        color: white;
+      }
+      #loadingGif{
+        display:none
+      }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="my-4" style="color: white;">AI Image Generator</h1>
+      <div class="container">
+        <h1 class="my-4" style="color: white;">Enter your prompt</h1>
+        <form>
+          <div class="mb-3">
+            <label for="imgprompt" class="form-label">Enter your prompt to generate image</label>
+            <input id="imgprompt" type="text" class="form-control" aria-describedby="emailHelp">
+            <div class="form-text" style="color: white;">We'll fetch the image from Open AI</div>
+          </div>
+          <button id="submitbtn" type="submit" class="btn btn-primary" style="color: white; background-color: darkcyan;">Submit</button>
+        </form>
+        <svg xmlns="http://www.w3.org/2000/svg" id='loadingGif' xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: rgb(241, 242, 243);" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <g transform="rotate(0 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(30 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.8333333333333334s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(60 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.75s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(90 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.6666666666666666s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(120 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5833333333333334s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(150 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(180 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.4166666666666667s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(210 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.3333333333333333s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(240 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.25s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(270 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.16666666666666666s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(300 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.08333333333333333s" repeatCount="indefinite"></animate>
+          </rect>
+        </g><g transform="rotate(330 50 50)">
+          <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#07abcc">
+            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animate>
+          </rect>
+        </g>
+        </svg>
+        <div class="container my-4">
+          <h1 class="my-4" style="color: white;">Image Gallery</h1>
+          <div class="row imageCont">
+            <div class="col-md-4 my-2">
+              <img width="340" src="https://kpmg.com/content/dam/kpmgblogs/in/images/post/2023/04/a-sneak-peek-into-2030-with-generative-ai-2200x1500.jpg" class="img-responsive">
+            </div>
+            <div class="col-md-4 my-2">
+              <img width="340" src="https://kpmg.com/content/dam/kpmgblogs/in/images/post/2023/04/a-sneak-peek-into-2030-with-generative-ai-2200x1500.jpg" class="img-responsive">
+            </div>
+            <div class="col-md-4 my-2">
+              <img width="340" src="https://kpmg.com/content/dam/kpmgblogs/in/images/post/2023/04/a-sneak-peek-into-2030-with-generative-ai-2200x1500.jpg" class="img-responsive">
+            </div>
+          </div>
+        </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      <script>
+        // Define loadingGif variable by selecting it with its id
+        const loadingGif = document.getElementById("loadingGif");
+
+        document.getElementById("submitbtn").addEventListener("click", function (e) {
+            e.preventDefault();
+            const prompt = document.getElementById("imgprompt").value;
+            // Show the loading GIF
+            loadingGif.style.display = "block";
+
+            fetch(`/generateimages/${prompt}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                // Hide the loading GIF
+                loadingGif.style.display = "none";
+
+                const imageGallery = document.querySelector(".imageCont");
+                imageGallery.innerHTML = ""; // Clear the existing images
+                data.forEach((imageUrl) => {
+                    const img = document.createElement("img");
+                    img.src = imageUrl;
+                    img.classList.add("img-responsive");
+                    img.style.width = "300px"; // Change to your desired width
+                    img.style.height = "250px"; // Change to your desired height
+                    imageGallery.appendChild(img);
+                });
+            });
+        });
+
+      </script>
+  </body>
+</html>
